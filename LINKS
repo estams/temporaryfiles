@@ -20,3 +20,5 @@ public class first {
 		driver.findElement(By.xpath("//input[@id='login-username']")).sendKeys("xyzz@yahoo.com");
 	}	
 }
+
+wget http://www.java2s.com/Code/JarDownload/testng/testng-6.8.7.jar.zip
