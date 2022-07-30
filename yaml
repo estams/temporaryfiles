@@ -76,4 +76,4 @@ Step 3: Run Ansible YAML script
 ansible-playbook node.yml
  
 
-
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 6494C6D6997C215E
