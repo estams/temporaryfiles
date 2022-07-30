@@ -1,0 +1,56 @@
+Step 1: Install Ansible on Ubuntu (You can skip this step in case Ansible is already installed)
+             1.1 Use the below commands on Ubuntu system to install ansible software.
+sudo apt-get install -f
+sudo apt-get install software-properties-common
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt-get update
+sudo apt-get install ansible
+ 
+Step 2: Establish connectivity between ansible controller and node machine
+2.1 Establish SSH key pair in linux system to have SSH connectivity with localhost using                                                                                                                                
+the following command:
+ssh-keygen -t rsa (Press Enter when asked for an input)
+cat .ssh/id_rsa.pub >> .ssh/authorized_keys
+ssh localhost -p 42006
+ 
+
+2.1 Now, add the host localhost in ansible host file /etc/ansible/hosts
+sudo vi /etc/ansible/hosts
+2.2 When the file opens, add the below two lines of the code at the end of the file if not added already:
+[webservers]
+localhost:42006
+2.3 Execute the below command to validate host inventory file
+	ansible -m ping webservers
+	sudo vi /etc/ansible/hosts
+
+ 
+
+Step 3: Write Ansible YAML script to install Apache software 
+3.1 Once connectivity is established, add the following code in the apache.yaml file and 
+proceed with execution
+3.2 Create and open the file using the below command
+sudo vi apache2.yaml
+ 
+---
+- hosts: webservers
+  become: true
+  tasks:
+    - name: install apache2
+      apt: name=apache2 update_cache=yes state=latest
+
+    - name: enabled mod_rewrite
+      apache2_module: name=rewrite state=present
+      notify:
+         - restart apache2
+
+  handlers:
+    - name: restart apache2
+      service: name=apache2 state=restarted
+
+Step 4: Run Ansible YAML script
+4.1 Run apache.yaml file using the below command: 
+
+ansible-playbook apache2.yaml
+
+4.2 Validate the installation using the command: 
+ansible -m shell -a "service apache2 status" webservers
