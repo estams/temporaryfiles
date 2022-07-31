@@ -1,0 +1,2 @@
+You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform app
