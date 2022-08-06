@@ -1,0 +1,49 @@
+
+
+Lesson 8 Demo 4
+Docker Compose Setup
+
+
+
+Steps to be followed:
+1.	Setting up docker-compose
+2.	Creating a docker-compose file
+
+Step 1: Setting up docker-compose
+1.1    Install docker-compose using the command given below:
+mkdir compose-test
+cd compose-test
+sudo apt-get install python-pip
+1.2 Then type the command given below, to install docker-compose
+sudo pip install docker-compose
+
+1.3 Alternatively if Step 1.1 throws an error you can use the commands given below to install docker-compose. 
+
+Step 2: Creating docker-compose file
+2.1   Inside compose-test folder, create docker-compose.yml file, and add the following code in    it:
+vi docker-compose.yml
+
+
+
+
+2.2   Add the following code snippet in the file:
+version: '2'
+services:
+  compose-test:
+    image: centos
+    links:
+      - compose-db
+    command: /usr/bin/curl compose-db:6379
+  compose-db:
+    image: redis
+    expose:
+      - "6379"
+
+
+
+
+2.3   Run the following command to execute the yaml file:
+sudo docker-compose up
+
+
+
