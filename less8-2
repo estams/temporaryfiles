@@ -31,7 +31,8 @@ sudo docker ps
 
 Step 3: Stopping the container
 3.1 Use the following command to stop the running container. (You can also us the 	container ID to stop the container: sudo docker stop CONTAINER_ID)
-sudo docker stop CONTAINER_NAME
+sudo docker stop sweet_poincare
+
 
 
 3.2 Use the following command to list all the running containers and verify if the container 	has stopped running:
@@ -39,12 +40,12 @@ sudo docker ps
 
 
 3.3 You can start the container again and check the running containers. (You can also us the 	container ID to start the container: sudo docker start CONTAINER_ID)
-sudo docker start CONTAINER_NAME
+sudo docker start sweet_poincare
 sudo docker ps
 
 
 3.4 To start the container in interactive mode, use the –i and –t options. 
-	sudo docker run -it –name=Test_1 ubuntu
+	sudo docker run -it --name=test_1 ubuntu
 Step 4: Listing all the containers
 4.1 Use the below command to list all the containers started and the once which are stopped:
 sudo docker ps -a
@@ -67,8 +68,8 @@ You can see the containers with ID are listed.
 
 Step 5: Deleting the container
 5.1 Stop the running container and remove it using the following commands:
-sudo docker stop CONTAINER_NAME
-sudo docker container rm CONTAINER_NAME
+sudo docker stop sweet_poincare
+sudo docker container rm sweet_poincare
 
 
 
