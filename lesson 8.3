@@ -1,0 +1,72 @@
+
+
+Lesson 8 Demo 3
+Creating a Docker Image
+
+
+Steps to be followed:
+1.	Creating the Dockerfile
+2.	Executing the Dockerfile
+
+Step 1: Creating the Dockerfile
+   1.1       Create a directory
+mkdir demo
+cd demo
+
+1.2       Create the Dockerfile
+vi Dockerfile
+
+
+
+1.3      Add the following code snippet to the Dockerfile
+FROM ubuntu
+RUN apt-get update
+RUN apt-get install -y nginx
+COPY index.nginx-debian.html /var/www/html
+CMD nginx -g 'daemon off;'
+
+
+1.4      Create another file in the same directory
+
+
+vi index.nginx-debian.html
+
+
+
+
+1.5        Add the following welcome message to the index file				WELCOME TO NGINX.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Step 2:  Executing the file
+
+    2.1          Execute the Dockerfile (note that there is space between build and “.”)
+sudo docker build 
+
+
+
+
+
+
+
+
+2.2       Navigate to the root folder, and list the images to check the newly created Docker image
+cd
+sudo docker images
+
+
