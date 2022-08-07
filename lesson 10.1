@@ -47,7 +47,7 @@ sudo kubectl get nodes
 
 2.6	Run the copied kubeadm join command as a root user on the worker node. You can use the terminal only lab as a worker node. Make sure you have Kubernetes installed on the worker node and then run the below command.
 
-kubeadm join 172.31.64.38:6443 --token 425qb8.51rbrxc5h862g202 \
+kubeadm join 172-31-27-197:6443 --token 425qb8.51rbrxc5h862g202 \
     --discovery-token-ca-cert-hash sha256:a502867d97b05820f186e3ee748afddd9142aae4104aee804d30662148138bae
 
 
@@ -57,3 +57,6 @@ kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl versio
 2.8	List all the nodes again to check the status of nodes using the command:
 kubectl get nodes
  
+root@ip-172-31-27-197:/home/estamsreenu5gma# kubectl get nodes
+NAME               STATUS   ROLES                  AGE     VERSION
+ip-172-31-27-197   Ready    control-plane,master   4m43s   v1.20.5
