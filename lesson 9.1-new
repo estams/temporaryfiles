@@ -1,0 +1,140 @@
+
+Lesson 9 Demo 1
+How to Install Nagios Monitoring Tool
+
+
+Steps to be followed:
+Installing package dependencies
+Installing Nagios Core 4.4.6
+Installing Nagios and NRPE plugins
+
+Step 1: Installing package dependencies
+Install the package dependencies using the following commands:
+
+
+sudo apt update
+sudo apt install -y autoconf bc gawk dc build-essential gcc libc6 make wget unzip apache2 php libapache2-mod-php libgd-dev libmcrypt-dev make libssl-dev snmp libnet-snmp-perl gettext
+
+
+Step 2: Installing Nagios Core 4.4.6
+Download the Nagios Core source code
+cd ~/
+wget https://github.com/NagiosEnterprises/nagioscore/archive/nagios-4.4.6.tar.gz
+tar -xf nagios-4.4.6.tar.gz
+cd nagioscore-*/
+
+Create the Nagios user and group using the below commands
+
+sudo useradd nagios
+sudo groupadd nagcmd
+sudo usermod -a -G nagcmd nagios
+Compile and install Nagios
+sudo ./configure --with-httpd-conf=/etc/apache2/sites-enabled
+sudo make all
+
+Run the following commands to install Nagios binaries, service daemon script, and the command mode.
+sudo make install
+sudo make install-daemoninit
+sudo make install-commandmode
+sudo make install-config
+
+Install the Apache configuration for Nagios and activate the mod_rewrite and mode_cgi modules and restart the apache service
+sudo make install-webconf
+sudo a2enmod rewrite cgi
+sudo service apache2 restart
+
+
+As you have installed the Nagios Core 4.4.6. Now create nagiosadmin user
+sudo htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
+
+Enter the password of your choice. You need to remember it as this will be used to login to nagios later
+
+For the firewall configuration, run the command below
+for svc in Apache ssh
+do
+sudo ufw allow $svc
+done
+
+To start the UFW firewall service and add it to the system boot, run
+sudo ufw enable
+
+Step 3: Installing Nagios and NRPE plugins
+
+Run the following command:
+
+sudo apt install monitoring-plugins nagios-nrpe-plugin
+
+
+Now, go to the nagios installation directory /usr/local/nagios/etc and create a new directory for storing all server hosts configuration
+cd /usr/local/nagios/etc
+sudo mkdir -p /usr/local/nagios/etc/servers
+
+Edit the Nagios configuration nagios.cfg using the vim editor
+sudo vim nagios.cfg
+
+Press i and uncomment the cfg_dir option that will be used for storing all server hosts configurations
+cfg_dir=/usr/local/nagios/etc/servers
+	
+
+Save and close. Now edit the configuration file resource.cfg
+sudo vim resource.cfg
+
+Define the Nagios Monitoring Plugins path by changing the default configuration as shown below
+$USER1$=/usr/lib/nagios/plugins
+
+
+Save and close the file. Now edit the objects/contacts.cfg file and add the nagios admin email contacts
+sudo vim objects/contacts.cfg
+
+Change the email address with your own
+define contact{
+        ......
+        email             <YourEmailId>
+}
+
+ Save and close. Edit the objects/commands.cfg file
+sudo vim objects/commands.cfg
+
+Add the following configuration to the end of the file
+define command{
+       command_name check_nrpe
+       command_line $USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
+}
+
+Save and close, and the Nagios core configuration has been completed. Run the following commands:
+sudo systemctl start nagios
+sudo systemctl enable nagios
+
+The Nagios service should be up and running, check using the following command:
+sudo systemctl status nagios
+
+
+
+Restart the Apache service to apply a new Nagios configuration
+sudo systemctl restart apache2
+
+Now open your web browser and type the server IP address following the nagios URL 
+http://localhost/nagios/
+
+Now you will have to log in with the user nagiosadmin and type your password
+
+
+You will get the Nagios Dashboard as shown below:
+
+You've installed Nagios on the Ubuntu server.
+
+
+
+
+Install NagiosXI
+
+    4.1 cd /opt
+    4.2 sudo wget http://assets.nagios.com/downloads/nagiosxi/xi-latest.tar.gz  (Step1.    
+           Download software)
+           4.3  sudo tar -xzf xi-latest.tar.gz   (untar file)
+           4.4   cd nagiosxi/
+           4.5 sudo ./fullinstall  (Run Install script)
+          4.6 To access UI, open below link after replacing the IP with the VMs IP
+                  http://IP/nagiosxi/
+          4.7  Select Free version and set username and password
+
